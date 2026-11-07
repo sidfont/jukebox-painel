@@ -3,190 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jukebox Pix</title>
+    <title>Jukebox Pix - Painel de Controle</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #f0f2f5; min-height: 100vh; }
-
-        /* Tela de Login */
-        #telaLogin {
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            min-height: 100vh; padding: 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
         }
-        .login-box {
-            background: white; padding: 30px; border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px;
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
         }
-        .login-box h2 { text-align: center; color: #1a73e8; margin-bottom: 25px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: #444; }
-        input {
-            width: 100%; padding: 12px; border: 1px solid #ddd;
-            border-radius: 6px; font-size: 16px;
-        }
-        button {
-            width: 100%; padding: 12px; background: #1a73e8; color: white;
-            border: none; border-radius: 6px; font-size: 16px; font-weight: 600;
+        
+        header h1 { font-size: 2rem; color: #00d4ff; }
+        header p { color: #888; margin-top: 10px; }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s;
         }
-        button:hover { background: #1557b0; }
-
-        /* Painel */
-        #painel { display: none; min-height: 100vh; }
-        .navbar {
-            background: #1a73e8; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+        
+        .btn-primary { background: #00d4ff; color: #000; }
+        .btn-primary:hover { background: #00b8e0; transform: translateY(-2px); }
+        
+        .btn-success { background: #00c853; color: #fff; }
+        .btn-success:hover { background: #00b045; }
+        
+        .btn-danger { background: #ff4757; color: #fff; padding: 6px 12px; font-size: 0.9rem; }
+        .btn-edit { background: #ffa502; color: #000; padding: 6px 12px; font-size: 0.9rem; }
+        
+        .add-section { text-align: center; margin-bottom: 30px; }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
         }
-        .navbar h1 { color: white; font-size: 18px; }
-        .nav-links a {
-            color: white; padding: 8px 12px; text-decoration: none;
-            border-radius: 4px; margin-left: 4px; font-size: 14px;
+        
+        .modal-overlay.active { display: flex; }
+        
+        .modal {
+            background: #16213e;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #00d4ff;
         }
-        .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.2); }
-
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
-        .page { display: none; }
-        .page.active { display: block; }
-
-        h2 { color: #333; margin-bottom: 20px; font-size: 20px; }
-
-        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .card h3 { font-size: 14px; color: #666; margin-bottom: 8px; }
-        .card .valor { font-size: 24px; font-weight: bold; color: #1a73e8; }
-
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        th { background: #f8f9fa; font-weight: 600; color: #444; }
-        .vazio { text-align: center; color: #999; padding: 30px !important; }
-
-        .topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .btn-novo { background: #00c853; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 15px; cursor: pointer; }
-        .btn-novo:hover { background: #00a844; }
+        
+        .modal h2 { color: #00d4ff; margin-bottom: 20px; text-align: center; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #ccc; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .btn-cancel { background: #555; color: #fff; }
+        
+        /* Tabela */
+        .table-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        table { width: 100%; border-collapse: collapse; }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        th { background: rgba(0,212,255,0.1); color: #00d4ff; font-weight: 600; }
+        
+        .status-online { color: #00c853; font-weight: 500; }
+        .status-offline { color: #ff4757; font-weight: 500; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state svg { width: 64px; height: 64px; margin-bottom: 20px; opacity: 0.5; }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #00c853;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 200;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .toast.show { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body>
-    <!-- Tela de Login -->
-    <div id="telaLogin">
-        <div class="login-box">
-            <h2>🎵 Jukebox Pix</h2>
-            <div class="input-group">
-                <label>E-mail</label>
-                <input type="email" id="email" placeholder="seu@email.com">
-            </div>
-            <div class="input-group">
-                <label>Senha</label>
-                <input type="password" id="senha" placeholder="Digite qualquer senha">
-            </div>
-            <button onclick="entrar()">Entrar</button>
-        </div>
-    </div>
-
-    <!-- Painel Principal -->
-    <div id="painel">
-        <div class="navbar">
+    <div class="container">
+        <header>
             <h1>🎵 Jukebox Pix</h1>
-            <div class="nav-links">
-                <a href="#" class="active" onclick="mostrarPagina('inicio')">Início</a>
-                <a href="#" onclick="mostrarPagina('jukeboxes')">Minhas Jukeboxes</a>
-                <a href="#" onclick="mostrarPagina('vendas')">Vendas</a>
-                <a href="#" onclick="sair()">Sair</a>
-            </div>
+            <p>Painel de Controle — Gerencie suas jukeboxes de qualquer lugar</p>
+        </header>
+
+        <div class="add-section">
+            <button class="btn btn-success" id="btnAdicionar">+ Adicionar Jukebox</button>
         </div>
 
-        <div class="container">
-            <!-- Início -->
-            <div class="page active" id="pag-inicio">
-                <h2>📊 Visão Geral</h2>
-                <div class="cards">
-                    <div class="card">
-                        <h3>Faturamento Hoje</h3>
-                        <div class="valor">R$ 0,00</div>
-                    </div>
-                    <div class="card">
-                        <h3>Faturamento Mês</h3>
-                        <div class="valor">R$ 0,00</div>
-                    </div>
-                    <div class="card">
-                        <h3>Jukeboxes</h3>
-                        <div class="valor" id="qtdJukeboxes">0</div>
-                    </div>
-                    <div class="card">
-                        <h3>Vendas</h3>
-                        <div class="valor" id="qtdVendas">0</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Jukeboxes -->
-            <div class="page" id="pag-jukeboxes">
-                <div class="topo">
-                    <h2>🎵 Minhas Jukeboxes</h2>
-                    <button class="btn-novo" onclick="alert('Em breve!')">+ Adicionar Jukebox</button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Local</th>
-                            <th>Preço/Crédito</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="4" class="vazio">Nenhuma jukebox cadastrada ainda</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Vendas -->
-            <div class="page" id="pag-vendas">
-                <h2>📝 Histórico de Vendas</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Jukebox</th>
-                            <th>Valor</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="4" class="vazio">Nenhuma venda registrada</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="table-container">
+            <table id="tabelaJukeboxes">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Local</th>
+                        <th>Preço/Crédito (R$)</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaJukeboxes">
+                    <!-- Lista carregada via JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="empty-state" id="emptyState">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM4.5 7.5a.5.5 0 0 1 0-1h5.793L4.146 4.146a.5.5 0 1 1 .708-.708L11 6.793V1.5a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5h-6z"/>
+                </svg>
+                <h3>Nenhuma jukebox cadastrada ainda</h3>
+                <p>Clique em "Adicionar Jukebox" para começar</p>
             </div>
         </div>
     </div>
+
+    <!-- Modal Formulário -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h2 id="modalTitulo">Nova Jukebox</h2>
+            <form id="formJukebox">
+                <input type="hidden" id="editId">
+                
+                <div class="form-group">
+                    <label for="nome">Nome da Jukebox</label>
+                    <input type="text" id="nome" placeholder="Ex: Jukebox Bar do Zé" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="local">Local/Endereço</label>
+                    <input type="text" id="local" placeholder="Ex: Rua das Flores, 123 - Centro" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preco">Preço por Crédito (R$)</label>
+                    <input type="number" step="0.01" id="preco" placeholder="Ex: 2,00" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codigoEsp32">Código da ESP32</label>
+                    <input type="text" id="codigoEsp32" placeholder="Ex: jukebox_001" required>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-cancel" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mensagem -->
+    <div class="toast" id="toast"></div>
 
     <script>
-        function entrar() {
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-            if(email && senha) {
-                document.getElementById('telaLogin').style.display = 'none';
-                document.getElementById('painel').style.display = 'block';
+        // Banco de dados local (depois conectaremos com servidor)
+        let jukeboxes = JSON.parse(localStorage.getItem('jukeboxes') || '[]');
+        let editandoId = null;
+
+        // Elementos
+        const modal = document.getElementById('modal');
+        const form = document.getElementById('formJukebox');
+        const lista = document.getElementById('listaJukeboxes');
+        const emptyState = document.getElementById('emptyState');
+        const toast = document.getElementById('toast');
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarLista();
+        });
+
+        // Abrir modal para nova
+        document.getElementById('btnAdicionar').addEventListener('click', () => {
+            editandoId = null;
+            document.getElementById('modalTitulo').textContent = 'Nova Jukebox';
+            form.reset();
+            modal.classList.add('active');
+        });
+
+        // Fechar modal
+        document.getElementById('btnCancelar').addEventListener('click', () => {
+            modal.classList.remove('active');
+            form.reset();
+            editandoId = null;
+        });
+
+        // Salvar
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const dados = {
+                id: editandoId || Date.now().toString(),
+                nome: document.getElementById('nome').value,
+                local: document.getElementById('local').value,
+                preco: parseFloat(document.getElementById('preco').value),
+                codigoEsp32: document.getElementById('codigoEsp32').value,
+                status: 'offline', // padrão
+                dataCadastro: new Date().toISOString()
+            };
+
+            if (editandoId) {
+                // Editar
+                const index = jukeboxes.findIndex(j => j.id === editandoId);
+                if (index !== -1) jukeboxes[index] = dados;
+                mostrarToast('Jukebox atualizada com sucesso! ✅');
             } else {
-                alert('Preencha os dois campos!');
+                // Adicionar
+                jukeboxes.push(dados);
+                mostrarToast('Jukebox cadastrada com sucesso! ✅');
             }
+
+            salvarDados();
+            renderizarLista();
+            modal.classList.remove('active');
+            form.reset();
+            editandoId = null;
+        });
+
+        // Renderizar lista
+        function renderizarLista() {
+            if (jukeboxes.length === 0) {
+                lista.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            lista.innerHTML = jukeboxes.map(j => `
+                <tr>
+                    <td><strong>${j.nome}</strong></td>
+                    <td>${j.local}</td>
+                    <td>R$ ${j.preco.toFixed(2)}</td>
+                    <td>
+                        <span class="status-${j.status === 'online' ? 'online' : 'offline'}">
+                            ${j.status === 'online' ? '● Online' : '● Offline'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-edit" onclick="editarJukebox('${j.id}')">Editar</button>
+                        <button class="btn-danger" onclick="excluirJukebox('${j.id}')">Excluir</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function mostrarPagina(nome) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            document.getElementById('pag-' + nome).classList.add('active');
-            event.target.classList.add('active');
+        // Editar
+        window.editarJukebox = function(id) {
+            const j = jukeboxes.find(item => item.id === id);
+            if (!j) return;
+
+            editandoId = id;
+            document.getElementById('modalTitulo').textContent = 'Editar Jukebox';
+            document.getElementById('nome').value = j.nome;
+            document.getElementById('local').value = j.local;
+            document.getElementById('preco').value = j.preco;
+            document.getElementById('codigoEsp32').value = j.codigoEsp32;
+            modal.classList.add('active');
+        };
+
+        // Excluir
+        window.excluirJukebox = function(id) {
+            if (confirm('Tem certeza que deseja excluir esta jukebox?')) {
+                jukeboxes = jukeboxes.filter(item => item.id !== id);
+                salvarDados();
+                renderizarLista();
+                mostrarToast('Jukebox removida! ✅');
+            }
+        };
+
+        // Salvar no localStorage
+        function salvarDados() {
+            localStorage.setItem('jukeboxes', JSON.stringify(jukeboxes));
         }
 
-        function sair() {
-            document.getElementById('painel').style.display = 'none';
-            document.getElementById('telaLogin').style.display = 'flex';
-            document.getElementById('email').value = '';
-            document.getElementById('senha').value = '';
+        // Mensagem
+        function mostrarToast(mensagem) {
+            toast.textContent = mensagem;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
     </script>
 </body>
