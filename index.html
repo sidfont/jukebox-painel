@@ -2,97 +2,169 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jukebox Pix — Painel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#00d9ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Jukebox Pix</title>
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #1a1a2e; color: #fff; min-height: 100vh; }
-        .center { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .box { background: rgba(255,255,255,0.05); padding: 40px 30px; border-radius: 12px; border: 1px solid #00d9ff40; width: 100%; max-width: 400px; text-align: center; }
-        h1 { color: #00d9ff; margin-bottom: 10px; }
-        input { width: 100%; padding: 14px; margin: 20px 0; border-radius: 8px; border: 1px solid #333; background: #16213e; color: #fff; font-size: 16px; }
-        button { width: 100%; padding: 14px; background: #00d9ff; border: none; border-radius: 8px; color: #000; font-size: 16px; font-weight: bold; cursor: pointer; }
-        button:hover { background: #00b8e6; }
-        .erro { color: #ff6666; margin-top: 10px; display: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: linear-gradient(180deg, #0f0f1a, #1a1a30); color: #fff; min-height: 100vh; padding-bottom: 30px; }
         .hidden { display: none !important; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .sair { width: auto; padding: 8px 16px; background: #ff4444; color: #fff; }
-        .linha { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
-        input.sm { padding: 8px; margin: 0; }
-        .btn-gr { background: #00cc66; margin: 10px 0; }
-        .btn-gr:hover { background: #00b359; }
-        .jb-card { background: rgba(0,0,0,0.25); padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 3px solid #555; }
+        
+        /* ===== TELA DE LOGIN ===== */
+        .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+        .login-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px 24px; border: 1px solid #00d9ff40; width: 100%; max-width: 360px; text-align: center; }
+        
+        .logo-img { max-width: 200px; margin-bottom: 10px; }
+        .logo-text { font-size: 22px; font-weight: bold; color: #00d9ff; margin-bottom: 4px; }
+        .logo-sub { font-size: 14px; color: #888; margin-bottom: 30px; }
+        
+        input { width: 100%; padding: 14px 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #333; background: #16213e; color: #fff; font-size: 16px; outline: none; }
+        input:focus { border-color: #00d9ff; }
+        button { border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: transform 0.15s, opacity 0.15s; }
+        button:active { transform: scale(0.97); }
+        .btn-primary { width: 100%; padding: 14px; background: linear-gradient(90deg, #00d9ff, #0088cc); color: #000; font-size: 16px; }
+        .erro-senha { color: #ff6666; margin-top: 12px; display: none; font-size: 14px; }
+        
+        /* ===== PAINEL PRINCIPAL ===== */
+        .app-header { padding: 16px 20px; padding-top: 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 10; backdrop-filter: blur(8px); }
+        .app-logo-section { display: flex; align-items: center; gap: 10px; }
+        .app-logo-small { height: 32px; width: auto; }
+        .app-title { font-size: 18px; font-weight: bold; color: #00d9ff; }
+        .btn-sair { background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 8px 14px; font-size: 14px; border-radius: 8px; }
+        .btn-sair:active { background: #ff4444; color: white; }
+        
+        .data-hoje { padding: 10px 20px; font-size: 13px; color: #888; }
+        
+        .container { padding: 0 16px; }
+        
+        /* ADICIONAR JUKEBOX */
+        .add-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px dashed #00d9ff40; }
+        .add-card h3 { color: #00d9ff; margin-bottom: 14px; font-size: 16px; }
+        .form-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+        .form-grid input { margin: 0; font-size: 15px; }
+        .btn-success { width: 100%; padding: 12px; background: #00cc66; color: white; font-size: 15px; }
+        
+        /* LISTA */
+        .jb-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 16px; margin-bottom: 14px; border-left: 3px solid #444; }
         .jb-card.online { border-left-color: #00ff88; }
-        .jb-card.offline { border-left-color: #ff4444; }
-        .status { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
-        .status.on { background: #00ff88; }
-        .status.off { background: #ff4444; }
-        .botoes { display: flex; gap: 6px; margin: 10px 0; flex-wrap: wrap; }
-        .b { padding: 6px 10px; font-size: 13px; width: auto; }
-        .b2 { background: #4CAF50; color: #fff; }
-        .b5 { background: #2196F3; color: #fff; }
-        .b10 { background: #FF9800; color: #fff; }
-        .b20 { background: #9C27B0; color: #fff; }
-        .b50 { background: #f44336; color: #fff; }
-        .log { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-top: 10px; font-family: monospace; font-size: 12px; max-height: 120px; overflow-y: auto; }
-        .log-line { padding: 3px 0; border-bottom: 1px solid #222; }
-        .ok { color: #00ff88; }
-        .aviso { color: #ffcc00; }
-        .del { background: #444; color: #888; margin-left: auto; }
-        .zera { margin-top: 30px; padding: 15px; border: 1px solid #ff444440; background: rgba(255,68,68,0.05); border-radius: 8px; }
-        .zera button { background: #ff4444; color: #fff; margin-top: 10px; }
+        .jb-card.offline { border-left-color: #ff9900; }
+        
+        .jb-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .jb-name { font-size: 17px; font-weight: 600; }
+        .jb-place { font-size: 12px; color: #888; margin-top: 2px; }
+        .status-tag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 12px; }
+        .status-tag.on { background: #00ff8820; color: #00ff88; }
+        .status-tag.off { background: #ff990020; color: #ff9900; }
+        
+        .periodo-info { font-size: 12px; color: #666; margin-bottom: 10px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px; }
+        .periodo-destaque { color: #ffcc00; font-weight: 600; }
+        
+        .jb-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .stat-box { background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px; text-align: center; }
+        .stat-label { font-size: 12px; color: #888; margin-bottom: 5px; }
+        .stat-value { font-size: 20px; font-weight: bold; color: #00d9ff; }
+        .stat-value.green { color: #00ff88; }
+        
+        .btn-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
+        .btn-v { padding: 10px 4px; font-size: 13px; border-radius: 6px; font-weight: 600; }
+        .btn-v.v2 { background: #4CAF50; color: white; }
+        .btn-v.v5 { background: #2196F3; color: white; }
+        .btn-v.v10 { background: #FF9800; color: white; }
+        .btn-v.v20 { background: #9C27B0; color: white; }
+        .btn-v.v50 { background: #f44336; color: white; }
+        
+        .mini-acoes { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .btn-mini { padding: 8px 12px; font-size: 13px; border-radius: 6px; background: #2a2a4a; color: #ccc; }
+        .btn-mini.zera { background: #ff990020; color: #ff9900; }
+        .btn-mini.exclui { background: #ff444420; color: #ff4444; margin-left: auto; }
+        
+        .log-box { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 12px; max-height: 100px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        .log-line { padding: 4px 0; border-bottom: 1px solid #2a2a4a; }
+        .log-time { color: #666; }
+        .log-ok { color: #00ff88; }
+        .log-empty { color: #555; font-style: italic; text-align: center; padding: 8px; }
+        
+        /* ZERAR GERAL */
+        .zera-section { background: rgba(255,68,68,0.05); border: 1px solid #ff444430; border-radius: 16px; padding: 20px; margin-top: 30px; }
+        .zera-section h3 { color: #ff4444; font-size: 16px; margin-bottom: 8px; }
+        .zera-section p { font-size: 13px; color: #888; margin-bottom: 15px; line-height: 1.5; }
+        .btn-zera-tudo { width: 100%; padding: 14px; background: #ff4444; color: white; font-size: 15px; }
+        
+        .empty-state { text-align: center; padding: 50px 20px; color: #555; font-size: 15px; }
     </style>
 </head>
 <body>
 
     <!-- TELA DE LOGIN -->
-    <div id="telaLogin" class="center">
-        <div class="box">
-            <h1>🎵 Jukebox Pix</h1>
-            <p>Painel de Controle</p>
-            <input type="password" id="senha" placeholder="Digite a senha">
-            <button onclick="entrar()">Entrar</button>
-            <div class="erro" id="msgErro">Senha incorreta</div>
+    <div id="telaLogin" class="login-screen">
+        <div class="login-box">
+            <!-- ======================
+               TROQUE AQUI PELA SUA LOGO
+               Coloque o link da sua imagem entre as aspas de src=""
+            ======================= -->
+            <img src="logo.png" alt="Jukebox Pix" class="logo-img" onerror="this.style.display='none'">
+            <div class="logo-text">Jukebox Pix</div>
+            <div class="logo-sub">Painel de Controle</div>
+            <input type="password" id="senha" placeholder="Digite sua senha">
+            <button class="btn-primary" onclick="entrar()">Entrar</button>
+            <div class="erro-senha" id="msgErro">Senha incorreta</div>
         </div>
     </div>
 
     <!-- PAINEL PRINCIPAL -->
     <div id="telaApp" class="hidden">
+        <div class="app-header">
+            <div class="app-logo-section">
+                <!-- ======================
+                   TROQUE AQUI TAMBÉM
+                   Mesmo link da logo acima
+                ======================= -->
+                <img src="logo.png" alt="Logo" class="app-logo-small" onerror="this.style.display='none'">
+                <span class="app-title">Jukebox Pix</span>
+            </div>
+            <button class="btn-sair" onclick="sair()">Sair</button>
+        </div>
+        
+        <div class="data-hoje" id="dataTopo"></div>
+        
         <div class="container">
-            <div class="top">
-                <h1>🎵 Jukebox Pix</h1>
-                <button class="sair" onclick="sair()">Sair</button>
-            </div>
-
             <!-- ADICIONAR JUKEBOX -->
-            <div class="card">
+            <div class="add-card">
                 <h3>➕ Adicionar Jukebox</h3>
-                <div class="linha">
-                    <input class="sm" type="text" id="nome" placeholder="Nome">
-                    <input class="sm" type="text" id="local" placeholder="Local">
-                    <input class="sm" type="text" id="ip" placeholder="IP">
+                <div class="form-grid">
+                    <input type="text" id="nome" placeholder="Nome do Cliente / Bar">
+                    <input type="text" id="local" placeholder="Cidade / Local">
+                    <input type="text" id="ip" placeholder="IP da ESP32">
                 </div>
-                <button class="btn-gr" onclick="cadastrar()">✅ Cadastrar</button>
+                <button class="btn-success" onclick="cadastrar()">✅ Cadastrar</button>
             </div>
-
-            <!-- LISTA -->
-            <div id="lista"></div>
-
-            <!-- ZERAR -->
-            <div class="zera">
-                <h3>⚠️ Zerar Período</h3>
-                <p>Apaga os valores acumulados de todas as jukeboxes</p>
-                <button onclick="if(confirm('Tem certeza?')){zerarTudo()}">🗑️ Zerar Tudo</button>
+            
+            <!-- LISTA DE JUKEBOXES -->
+            <div id="listaJb"></div>
+            
+            <!-- ZERAR TODAS -->
+            <div class="zera-section">
+                <h3>🗑️ Iniciar Novo Período — Todas as Jukeboxes</h3>
+                <p>Zera os contadores de valor e entradas de <strong>todas</strong> as máquinas de uma vez. O histórico de pagamentos fica salvo para consulta. Use no dia de acerto quinzenal ou mensal.</p>
+                <button class="btn-zera-tudo" onclick="if(confirm('⚠️ ATENÇÃO: Zerar contadores de TODAS as jukeboxes?\n\nO período atual vai fechar e começar do zero.\nO histórico de pagamentos fica salvo.\n\nConfirma?')){zerarTodas()}">🔄 Zerar Período de Todas</button>
             </div>
         </div>
     </div>
 
 <script>
 const SENHA = "jukebox2026";
-const CHAVE = "jb_dados";
+const CHAVE = "jb_pix_dados_v2";
 let jbs = [];
+
+// DATA DE HOJE FORMATADA
+const hoje = new Date();
+const dataFormatada = hoje.toLocaleDateString('pt-BR', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+});
+document.getElementById('dataTopo').textContent = dataFormatada;
 
 // LOGIN
 function entrar() {
@@ -101,12 +173,24 @@ function entrar() {
         document.getElementById('telaLogin').classList.add('hidden');
         document.getElementById('telaApp').classList.remove('hidden');
         carregar();
+        // DADOS DE EXEMPLO SE FOR PRIMEIRO ACESSO
         if (jbs.length === 0) {
-            jbs = [{id:'jb1',nome:'Bar do Gil',local:'Laginha de Quixere-CE',ip:'192.168.0.14',cod:'jukebox_01',online:false,total:0,valor:0,log:[]}];
+            jbs = [{
+                id: 'jb1',
+                nome: 'Bar do Gil',
+                local: 'Laginha de Quixere-CE',
+                ip: '192.168.0.14',
+                online: false,
+                periodoAtual: {
+                    total: 0,
+                    valor: 0,
+                    inicio: new Date().toLocaleDateString('pt-BR')
+                },
+                historicoPagamentos: []
+            }];
             salvar();
             mostrar();
         }
-        verificarTodos();
     } else {
         document.getElementById('msgErro').style.display = 'block';
     }
@@ -119,93 +203,145 @@ function sair() {
     document.getElementById('telaLogin').classList.remove('hidden');
 }
 
-// ARMAZENAMENTO
-function salvar() { localStorage.setItem(CHAVE, JSON.stringify(jbs)); }
-function carregar() { const d = localStorage.getItem(CHAVE); if(d) jbs = JSON.parse(d); mostrar(); }
+// SALVAR E CARREGAR DADOS
+function salvar() {
+    localStorage.setItem(CHAVE, JSON.stringify(jbs));
+}
+function carregar() {
+    const dadosSalvos = localStorage.getItem(CHAVE);
+    if (dadosSalvos) {
+        jbs = JSON.parse(dadosSalvos);
+    }
+    mostrar();
+}
 
-// CADASTRAR
+// CADASTRAR NOVA JUKEBOX
 function cadastrar() {
     const nome = document.getElementById('nome').value.trim();
     const local = document.getElementById('local').value.trim();
     const ip = document.getElementById('ip').value.trim();
-    if(!nome || !ip) { alert('Preencha Nome e IP!'); return; }
-    jbs.push({id:'jb'+Date.now(), nome:nome, local:local, ip:ip, cod:'', online:false, total:0, valor:0, log:[]});
-    salvar(); mostrar();
-    document.getElementById('nome').value='';
-    document.getElementById('local').value='';
-    document.getElementById('ip').value='';
-}
-
-// REMOVER
-function remover(id) {
-    if(confirm('Excluir?')) { jbs = jbs.filter(j=>j.id!==id); salvar(); mostrar(); }
-}
-
-// VERIFICAR STATUS
-async function checar(id) {
-    const jb = jbs.find(j=>j.id===id);
-    if(!jb) return;
-    try {
-        const c = new AbortController();
-        const t = setTimeout(()=>c.abort(), 2000);
-        const r = await fetch(`http://${jb.ip}/status`, {signal:c.signal});
-        clearTimeout(t);
-        jb.online = r.ok;
-    } catch { jb.online = false; }
-    salvar(); mostrar();
-}
-
-function verificarTodos() { jbs.forEach(j=>checar(j.id)); }
-
-// ENVIAR CRÉDITO
-async function enviar(id, val, qtd) {
-    const jb = jbs.find(j=>j.id===id);
-    if(!jb) return;
-    const hora = new Date().toLocaleTimeString();
-    jb.log.unshift({t:hora, v:val, q:qtd});
-    jb.total++;
-    jb.valor += val;
-    salvar(); mostrar();
-    try { await fetch(`http://${jb.ip}/credito?valor=${val}`); } catch {}
-}
-
-// ZERAR
-function zerarTudo() {
-    jbs.forEach(j=>{ jb.total=0; jb.valor=0; jb.log=[]; });
-    salvar(); mostrar();
-}
-
-// RENDERIZAR
-function mostrar() {
-    const lista = document.getElementById('lista');
-    if(jbs.length===0) {
-        lista.innerHTML = '<p style="text-align:center;color:#666;padding:20px">Nenhuma jukebox cadastrada</p>';
+    
+    if (!nome || !ip) {
+        alert('⚠️ Preencha pelo menos o Nome e o IP!');
         return;
     }
-    lista.innerHTML = jbs.map(j=>`
-        <div class="jb-card ${j.online?'online':'offline'}">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-                <strong>${j.nome}</strong>
-                <span><span class="status ${j.online?'on':'off'}"></span>${j.online?'ONLINE':'OFFLINE'}</span>
-            </div>
-            <p style="font-size:13px;color:#888">📍 ${j.local} • IP: ${j.ip}</p>
-            <p style="margin:8px 0">💰 Entradas: ${j.total} | Total: R$ ${j.valor.toFixed(2).replace('.',',')}</p>
-            <div class="botoes">
-                <button class="b b2" onclick="enviar('${j.id}',2.00,2)">R$2</button>
-                <button class="b b5" onclick="enviar('${j.id}',5.00,5)">R$5</button>
-                <button class="b b10" onclick="enviar('${j.id}',10.00,10)">R$10</button>
-                <button class="b b20" onclick="enviar('${j.id}',20.00,20)">R$20</button>
-                <button class="b b50" onclick="enviar('${j.id}',50.00,50)">R$50</button>
-                <button class="b del" onclick="remover('${j.id}')">🗑️</button>
-            </div>
-            <div class="log">
-                ${j.log.length===0?'<span class="aviso">Sem registros ainda</span>':
-                    j.log.slice(0,8).map(l=>`<div class="log-line"><span class="aviso">[${l.t}]</span> R$ ${l.v.toFixed(2).replace('.',',')} → ${l.q} pulsos</div>`).join('')
-                }
-            </div>
-        </div>
-    `).join('');
+    
+    const novaJukebox = {
+        id: 'jb' + Date.now(),
+        nome: nome,
+        local: local,
+        ip: ip,
+        online: false,
+        periodoAtual: {
+            total: 0,
+            valor: 0,
+            inicio: new Date().toLocaleDateString('pt-BR')
+        },
+        historicoPagamentos: []
+    };
+    
+    jbs.push(novaJukebox);
+    salvar();
+    mostrar();
+    
+    // LIMPAR CAMPOS
+    document.getElementById('nome').value = '';
+    document.getElementById('local').value = '';
+    document.getElementById('ip').value = '';
+    
+    alert('✅ Jukebox cadastrada com sucesso!');
 }
-</script>
-</body>
-</html>
+
+// EXCLUIR JUKEBOX
+function remover(id) {
+    if (confirm('⚠️ Tem certeza?\n\nEsta jukebox e TODO o histórico dela serão apagados permanentemente!')) {
+        jbs = jbs.filter(jb => jb.id !== id);
+        salvar();
+        mostrar();
+    }
+}
+
+// ZERAR PERÍODO — SÓ UMA JUKEBOX
+function zerarUmPeriodo(id) {
+    if (confirm('🔄 Iniciar NOVO PERÍODO para esta jukebox?\n\nOs contadores voltam a zero.\nO histórico de pagamentos fica salvo.\n\nConfirma?')) {
+        const jb = jbs.find(j => j.id === id);
+        if (jb) {
+            jb.periodoAtual = {
+                total: 0,
+                valor: 0,
+                inicio: new Date().toLocaleDateString('pt-BR')
+            };
+            salvar();
+            mostrar();
+        }
+    }
+}
+
+// ZERAR PERÍODO — TODAS AS JUKEBOXES
+function zerarTodas() {
+    jbs.forEach(jb => {
+        jb.periodoAtual = {
+            total: 0,
+            valor: 0,
+            inicio: new Date().toLocaleDateString('pt-BR')
+        };
+    });
+    salvar();
+    mostrar();
+    alert('✅ Novo período iniciado para todas as jukeboxes!\n\nContadores zerados.\nHistórico salvo.');
+}
+
+// ENVIAR CRÉDITO / REGISTRAR PAGAMENTO
+async function enviar(id, valor, pulsos) {
+    const jb = jbs.find(j => j.id === id);
+    if (!jb) return;
+    
+    const agora = new Date();
+    const dataHora = agora.toLocaleTimeString('pt-BR');
+    const data = agora.toLocaleDateString('pt-BR');
+    
+    // ATUALIZA CONTADORES DO PERÍODO
+    jb.periodoAtual.total++;
+    jb.periodoAtual.valor += valor;
+    
+    // SALVA NO HISTÓRICO COMPLETO
+    jb.historicoPagamentos.unshift({
+        data: data,
+        hora: dataHora,
+        valor: valor,
+        pulsos: pulsos
+    });
+    
+    // LIMPA HISTÓRICO MUITO ANTIGO (mantém últimos 30 registros)
+    if (jb.historicoPagamentos.length > 30) {
+        jb.historicoPagamentos.pop();
+    }
+    
+    salvar();
+    mostrar();
+    
+    // TENTA ENVIAR PARA A ESP32
+    try {
+        await fetch(`http://${jb.ip}/credito?valor=${valor}`);
+    } catch (erro) {
+        // Se não conseguir conectar, só registra no painel
+    }
+}
+
+// RENDERIZAR LISTA DE JUKEBOXES
+function mostrar() {
+    const lista = document.getElementById('listaJb');
+    
+    if (jbs.length === 0) {
+        lista.innerHTML = '<div class="empty-state">🎵 Nenhuma jukebox cadastrada ainda.<br><br>Preencha os dados acima e clique em "Cadastrar" para começar!</div>';
+        return;
+    }
+    
+    lista.innerHTML = jbs.map(jb => {
+        const p = jb.periodoAtual || { total: 0, valor: 0, inicio: '-' };
+        const historico = jb.historicoPagamentos || [];
+        
+        return `
+        <div class="jb-card ${jb.online?'online':'offline'}">
+            <div class="jb-top">
+                <div>
