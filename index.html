@@ -3,343 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jukebox Pix - Painel de Controle</title>
+    <title>Jukebox Pix — Painel de Controle</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #fff;
-        }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 30px;
-        }
-        
-        header h1 { font-size: 2rem; color: #00d4ff; }
-        header p { color: #888; margin-top: 10px; }
-        
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary { background: #00d4ff; color: #000; }
-        .btn-primary:hover { background: #00b8e0; transform: translateY(-2px); }
-        
-        .btn-success { background: #00c853; color: #fff; }
-        .btn-success:hover { background: #00b045; }
-        
-        .btn-danger { background: #ff4757; color: #fff; padding: 6px 12px; font-size: 0.9rem; }
-        .btn-edit { background: #ffa502; color: #000; padding: 6px 12px; font-size: 0.9rem; }
-        
-        .add-section { text-align: center; margin-bottom: 30px; }
-        
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-overlay.active { display: flex; }
-        
-        .modal {
-            background: #16213e;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid #00d4ff;
-        }
-        
-        .modal h2 { color: #00d4ff; margin-bottom: 20px; text-align: center; }
-        
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; color: #ccc; }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #444;
-            background: #1a1a2e;
-            color: #fff;
-            font-size: 1rem;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-        
-        .btn-cancel { background: #555; color: #fff; }
-        
-        /* Tabela */
-        .table-container {
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        
-        table { width: 100%; border-collapse: collapse; }
-        
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        th { background: rgba(0,212,255,0.1); color: #00d4ff; font-weight: 600; }
-        
-        .status-online { color: #00c853; font-weight: 500; }
-        .status-offline { color: #ff4757; font-weight: 500; }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-        
-        .empty-state svg { width: 64px; height: 64px; margin-bottom: 20px; opacity: 0.5; }
-        
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #00c853;
-            color: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            z-index: 200;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s;
-        }
-        
-        .toast.show { transform: translateY(0); opacity: 1; }
+        body { background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 30px; color: #00d9ff; }
+        .card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0,217,255,0.2); }
+        .jukebox-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .status { display: flex; align-items: center; gap: 8px; font-weight: bold; }
+        .status-dot { width: 14px; height: 14px; border-radius: 50%; background: #555; }
+        .status-dot.online { background: #00ff88; box-shadow: 0 0 10px #00ff88; }
+        .status-dot.offline { background: #ff4444; box-shadow: 0 0 10px #ff4444; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .info-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; }
+        .info-label { font-size: 12px; color: #aaa; }
+        .info-value { font-weight: bold; color: #00d9ff; }
+        .test-section { margin-top: 20px; }
+        .test-section h3 { margin-bottom: 12px; color: #ffcc00; }
+        .btn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 15px; }
+        button { padding: 12px 8px; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-2 { background: #4CAF50; color: white; }
+        .btn-5 { background: #2196F3; color: white; }
+        .btn-10 { background: #FF9800; color: white; }
+        .btn-20 { background: #9C27B0; color: white; }
+        .btn-50 { background: #f44336; color: white; }
+        button:hover { transform: scale(1.05); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .log-section { margin-top: 25px; }
+        .log-section h3 { margin-bottom: 12px; color: #00d9ff; }
+        .log-box { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 15px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 13px; }
+        .log-entry { padding: 6px 0; border-bottom: 1px solid #333; }
+        .log-time { color: #888; }
+        .log-success { color: #00ff88; }
+        .log-error { color: #ff6666; }
+        .log-info { color: #ffcc00; }
+        .refresh-btn { background: #00d9ff; color: #000; margin-bottom: 15px; }
+        .empty-state { text-align: center; color: #666; padding: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🎵 Jukebox Pix</h1>
-            <p>Painel de Controle — Gerencie suas jukeboxes de qualquer lugar</p>
-        </header>
+        <h1>🎵 Jukebox Pix — Painel de Controle</h1>
 
-        <div class="add-section">
-            <button class="btn btn-success" id="btnAdicionar">+ Adicionar Jukebox</button>
-        </div>
+        <!-- Jukebox Card -->
+        <div class="card">
+            <div class="jukebox-header">
+                <h2>Bar do Gil — Jukebox-01</h2>
+                <div class="status">
+                    <div class="status-dot" id="statusDot"></div>
+                    <span id="statusText">Verificando...</span>
+                </div>
+            </div>
 
-        <div class="table-container">
-            <table id="tabelaJukeboxes">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Local</th>
-                        <th>Preço/Crédito (R$)</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaJukeboxes">
-                    <!-- Lista carregada via JavaScript -->
-                </tbody>
-            </table>
-            
-            <div class="empty-state" id="emptyState">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM4.5 7.5a.5.5 0 0 1 0-1h5.793L4.146 4.146a.5.5 0 1 1 .708-.708L11 6.793V1.5a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5h-6z"/>
-                </svg>
-                <h3>Nenhuma jukebox cadastrada ainda</h3>
-                <p>Clique em "Adicionar Jukebox" para começar</p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Local</div>
+                    <div class="info-value">Laginha de Quixere-CE</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">IP da ESP32</div>
+                    <div class="info-value" id="ipDisplay">192.168.0.14</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Código</div>
+                    <div class="info-value">jukebox_01</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Última verificação</div>
+                    <div class="info-value" id="lastCheck">--:--:--</div>
+                </div>
+            </div>
+
+            <!-- Test Buttons -->
+            <div class="test-section">
+                <h3>🧪 Enviar Crédito de Teste</h3>
+                <div class="btn-grid">
+                    <button class="btn-2" onclick="enviarTeste(2.00)">R$ 2,00<br>2 pulsos</button>
+                    <button class="btn-5" onclick="enviarTeste(5.00)">R$ 5,00<br>5 pulsos</button>
+                    <button class="btn-10" onclick="enviarTeste(10.00)">R$ 10,00<br>10 pulsos</button>
+                    <button class="btn-20" onclick="enviarTeste(20.00)">R$ 20,00<br>20 pulsos</button>
+                    <button class="btn-50" onclick="enviarTeste(50.00)">R$ 50,00<br>50 pulsos</button>
+                </div>
+            </div>
+
+            <!-- Log / Histórico -->
+            <div class="log-section">
+                <h3>📋 Histórico de Operações</h3>
+                <button class="refresh-btn" onclick="limparLog()">Limpar Histórico</button>
+                <div class="log-box" id="logBox">
+                    <div class="empty-state">Nenhuma operação registrada ainda.</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Formulário -->
-    <div class="modal-overlay" id="modal">
-        <div class="modal">
-            <h2 id="modalTitulo">Nova Jukebox</h2>
-            <form id="formJukebox">
-                <input type="hidden" id="editId">
-                
-                <div class="form-group">
-                    <label for="nome">Nome da Jukebox</label>
-                    <input type="text" id="nome" placeholder="Ex: Jukebox Bar do Zé" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="local">Local/Endereço</label>
-                    <input type="text" id="local" placeholder="Ex: Rua das Flores, 123 - Centro" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="preco">Preço por Crédito (R$)</label>
-                    <input type="number" step="0.01" id="preco" placeholder="Ex: 2,00" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="codigoEsp32">Código da ESP32</label>
-                    <input type="text" id="codigoEsp32" placeholder="Ex: jukebox_001" required>
-                </div>
-                
-                <div class="modal-buttons">
-                    <button type="button" class="btn btn-cancel" id="btnCancelar">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Mensagem -->
-    <div class="toast" id="toast"></div>
-
     <script>
-        // Banco de dados local (depois conectaremos com servidor)
-        let jukeboxes = JSON.parse(localStorage.getItem('jukeboxes') || '[]');
-        let editandoId = null;
+        // CONFIGURAÇÃO — coloque o IP correto aqui
+        const IP_JUKEBOX = '192.168.0.14';
+        let historico = [];
 
-        // Elementos
-        const modal = document.getElementById('modal');
-        const form = document.getElementById('formJukebox');
-        const lista = document.getElementById('listaJukeboxes');
-        const emptyState = document.getElementById('emptyState');
-        const toast = document.getElementById('toast');
+        // Inicialização
+        window.onload = function() {
+            verificarStatus();
+            setInterval(verificarStatus, 30000); // Verifica a cada 30 segundos
+        };
 
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', () => {
-            renderizarLista();
-        });
-
-        // Abrir modal para nova
-        document.getElementById('btnAdicionar').addEventListener('click', () => {
-            editandoId = null;
-            document.getElementById('modalTitulo').textContent = 'Nova Jukebox';
-            form.reset();
-            modal.classList.add('active');
-        });
-
-        // Fechar modal
-        document.getElementById('btnCancelar').addEventListener('click', () => {
-            modal.classList.remove('active');
-            form.reset();
-            editandoId = null;
-        });
-
-        // Salvar
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        // Verificar se está online
+        async function verificarStatus() {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            const time = document.getElementById('lastCheck');
             
-            const dados = {
-                id: editandoId || Date.now().toString(),
-                nome: document.getElementById('nome').value,
-                local: document.getElementById('local').value,
-                preco: parseFloat(document.getElementById('preco').value),
-                codigoEsp32: document.getElementById('codigoEsp32').value,
-                status: 'offline', // padrão
-                dataCadastro: new Date().toISOString()
-            };
-
-            if (editandoId) {
-                // Editar
-                const index = jukeboxes.findIndex(j => j.id === editandoId);
-                if (index !== -1) jukeboxes[index] = dados;
-                mostrarToast('Jukebox atualizada com sucesso! ✅');
-            } else {
-                // Adicionar
-                jukeboxes.push(dados);
-                mostrarToast('Jukebox cadastrada com sucesso! ✅');
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+                
+                const resposta = await fetch(`http://${IP_JUKEBOX}/status`, { 
+                    signal: controller.signal,
+                    mode: 'cors'
+                });
+                clearTimeout(timeoutId);
+                
+                if (resposta.ok) {
+                    dot.classList.add('online');
+                    dot.classList.remove('offline');
+                    text.textContent = 'ONLINE ✅';
+                    adicionarLog('info', 'Sistema verificado — Online');
+                }
+            } catch (erro) {
+                dot.classList.remove('online');
+                dot.classList.add('offline');
+                text.textContent = 'OFFLINE ❌';
+                adicionarLog('error', 'Sistema offline ou fora da rede');
             }
-
-            salvarDados();
-            renderizarLista();
-            modal.classList.remove('active');
-            form.reset();
-            editandoId = null;
-        });
-
-        // Renderizar lista
-        function renderizarLista() {
-            if (jukeboxes.length === 0) {
-                lista.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
-
-            emptyState.style.display = 'none';
-            lista.innerHTML = jukeboxes.map(j => `
-                <tr>
-                    <td><strong>${j.nome}</strong></td>
-                    <td>${j.local}</td>
-                    <td>R$ ${j.preco.toFixed(2)}</td>
-                    <td>
-                        <span class="status-${j.status === 'online' ? 'online' : 'offline'}">
-                            ${j.status === 'online' ? '● Online' : '● Offline'}
-                        </span>
-                    </td>
-                    <td>
-                        <button class="btn-edit" onclick="editarJukebox('${j.id}')">Editar</button>
-                        <button class="btn-danger" onclick="excluirJukebox('${j.id}')">Excluir</button>
-                    </td>
-                </tr>
-            `).join('');
+            
+            const agora = new Date();
+            time.textContent = agora.toLocaleTimeString();
         }
 
-        // Editar
-        window.editarJukebox = function(id) {
-            const j = jukeboxes.find(item => item.id === id);
-            if (!j) return;
-
-            editandoId = id;
-            document.getElementById('modalTitulo').textContent = 'Editar Jukebox';
-            document.getElementById('nome').value = j.nome;
-            document.getElementById('local').value = j.local;
-            document.getElementById('preco').value = j.preco;
-            document.getElementById('codigoEsp32').value = j.codigoEsp32;
-            modal.classList.add('active');
-        };
-
-        // Excluir
-        window.excluirJukebox = function(id) {
-            if (confirm('Tem certeza que deseja excluir esta jukebox?')) {
-                jukeboxes = jukeboxes.filter(item => item.id !== id);
-                salvarDados();
-                renderizarLista();
-                mostrarToast('Jukebox removida! ✅');
+        // Enviar teste de crédito
+        async function enviarTeste(valor) {
+            adicionarLog('info', `Solicitando R$ ${valor.toFixed(2).replace('.', ',')}...`);
+            
+            try {
+                const resposta = await fetch(`http://${IP_JUKEBOX}/credito?valor=${valor}`, { mode: 'cors' });
+                const texto = await resposta.text();
+                
+                if (texto.includes('pulsos enviados')) {
+                    adicionarLog('success', `✅ R$ ${valor.toFixed(2).replace('.', ',')} — ${texto}`);
+                } else if (texto === 'VALOR_INVALIDO') {
+                    adicionarLog('error', '❌ Valor não permitido — nenhum pulso enviado');
+                } else {
+                    adicionarLog('info', `Resposta: ${texto}`);
+                }
+            } catch (erro) {
+                adicionarLog('error', '❌ Erro de comunicação — verifique se está na mesma rede Wi-Fi');
             }
-        };
-
-        // Salvar no localStorage
-        function salvarDados() {
-            localStorage.setItem('jukeboxes', JSON.stringify(jukeboxes));
         }
 
-        // Mensagem
-        function mostrarToast(mensagem) {
-            toast.textContent = mensagem;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+        // Adicionar entrada no log
+        function adicionarLog(tipo, mensagem) {
+            const logBox = document.getElementById('logBox');
+            const agora = new Date();
+            const hora = agora.toLocaleTimeString();
+            
+            // Remove mensagem de "vazio" se existir
+            const vazio = logBox.querySelector('.empty-state');
+            if (vazio) vazio.remove();
+            
+            const entrada = document.createElement('div');
+            entrada.className = 'log-entry';
+            
+            let classeCor = '';
+            if (tipo === 'success') classeCor = 'log-success';
+            else if (tipo === 'error') classeCor = 'log-error';
+            else classeCor = 'log-info';
+            
+            entrada.innerHTML = `
+                <span class="log-time">[${hora}]</span>
+                <span class="${classeCor}">${mensagem}</span>
+            `;
+            
+            logBox.insertBefore(entrada, logBox.firstChild);
+            historico.unshift({ hora, mensagem, tipo });
+            
+            // Limita a 50 entradas
+            while (logBox.children.length > 50) {
+                logBox.removeChild(logBox.lastChild);
+            }
+        }
+
+        // Limpar histórico
+        function limparLog() {
+            const logBox = document.getElementById('logBox');
+            logBox.innerHTML = '<div class="empty-state">Nenhuma operação registrada ainda.</div>';
+            historico = [];
         }
     </script>
 </body>
