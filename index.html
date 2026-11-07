@@ -13,9 +13,10 @@
         
         /* TELA DE LOGIN */
         .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-        .login-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 40px 28px; border: 1px solid #00d9ff40; width: 100%; max-width: 360px; text-align: center; }
+        .login-box { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px 24px; border: 1px solid #00d9ff40; width: 100%; max-width: 360px; text-align: center; }
         
-        .logo-text { font-size: 26px; font-weight: bold; color: #00d9ff; margin-bottom: 5px; }
+        .logo-img { max-width: 180px; margin-bottom: 10px; }
+        .logo-text { font-size: 24px; font-weight: bold; color: #00d9ff; margin-bottom: 5px; }
         .logo-sub { font-size: 14px; color: #888; margin-bottom: 30px; }
         
         input { width: 100%; padding: 14px 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid #333; background: #16213e; color: #fff; font-size: 16px; outline: none; }
@@ -26,6 +27,8 @@
         
         /* PAINEL PRINCIPAL */
         .app-header { padding: 16px 20px; padding-top: 30px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 10; }
+        .app-logo-area { display: flex; align-items: center; gap: 8px; }
+        .app-logo-small { height: 36px; width: auto; }
         .app-title { font-size: 18px; font-weight: bold; color: #00d9ff; }
         .btn-sair { background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 8px 14px; font-size: 14px; border-radius: 8px; }
         
@@ -89,7 +92,12 @@
     <!-- TELA DE LOGIN -->
     <div id="telaLogin" class="login-screen">
         <div class="login-box">
-            <div class="logo-text">🎵 Jukebox Pix</div>
+            <!-- ======================
+               COLOQUE SUA LOGO AQUI!
+               Coloque o arquivo da logo na mesma pasta e chame de: logo.png
+            ======================= -->
+            <img src="logo.png" alt="Jukebox Pix" class="logo-img" onerror="this.style.display='none'">
+            <div class="logo-text">Jukebox Pix</div>
             <div class="logo-sub">Painel de Controle</div>
             <input type="password" id="senha" placeholder="Digite sua senha">
             <button class="btn-primary" onclick="entrar()">Entrar</button>
@@ -100,7 +108,11 @@
     <!-- PAINEL PRINCIPAL -->
     <div id="telaApp" class="hidden">
         <div class="app-header">
-            <span class="app-title">🎵 Jukebox Pix</span>
+            <div class="app-logo-area">
+                <!-- MESMA LOGO AQUI EM CIMA -->
+                <img src="logo.png" alt="Logo" class="app-logo-small" onerror="this.style.display='none'">
+                <span class="app-title">Jukebox Pix</span>
+            </div>
             <button class="btn-sair" onclick="sair()">Sair</button>
         </div>
         
@@ -128,7 +140,6 @@
     </div>
 
 <script>
-// 🔑 SENHA CORRETA AQUI:
 const SENHA = "jukebox2026";
 const CHAVE = "jb_pix_dados";
 let jbs = [];
