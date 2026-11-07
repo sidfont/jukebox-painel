@@ -160,7 +160,7 @@
 
     <script>
         // ============= CONFIGURAÇÃO =============
-        const SENHA_SISTEMA = "jukebox2026"; // ← Mude sua senha aqui quando quiser!
+        const SENHA_SISTEMA = "jukebox2026";
         const ARMAZENAMENTO_CHAVE = "jukeboxPix_dados";
         
         let jukeboxes = [];
@@ -308,4 +308,7 @@
             } catch {}
         }
 
-        // ============= ZERAR =
+        // ============= ZERAR =============
+        function zerarTudo() {
+            jukeboxes.forEach(jb => {
+                jb.total
