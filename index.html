@@ -283,16 +283,7 @@ function carregarDadosSalvos() {
   if (dadosSalvos) {
     maquinas = JSON.parse(dadosSalvos);
   } else {
-    // Dados iniciais — sua primeira máquina
-    maquinas = [{
-      id: 'jukebox_01',
-      nome: 'Bar do Gil',
-      local: 'Limoeiro do Norte, CE',
-      ip: '192.168.0.3',
-      periodo: { totalPulsos: 0, valorTotal: 0, inicio: new Date().toLocaleDateString('pt-BR') },
-      historico: []
-    }];
-    salvarTudo();
+    maquinas = [];
   }
   atualizarLista();
 }
@@ -402,7 +393,7 @@ async function enviarValor(idMaquina, quantidadePulsos, valorReais) {
   }
 }
 
-// 🖥️ MOSTRAR TUDO NA TELA
+// 🖥️ MOSTRAR LISTA
 function atualizarLista() {
   const lista = document.getElementById('lista-maquinas');
   
@@ -460,7 +451,7 @@ function atualizarLista() {
   });
 }
 
-// Permitir Enter para logar
+// Enter para logar
 document.addEventListener('keypress', function(e) {
   if (e.key === 'Enter' && !document.getElementById('tela-login').classList.contains('escondido')) {
     verificarSenha();
