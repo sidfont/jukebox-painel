@@ -9,103 +9,57 @@
     body { background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: white; }
     .hidden { display: none !important; }
     
-    /* Tela de Login */
-    #telaLogin {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .login-box {
-      background: rgba(255,255,255,0.05);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
+    /* Login */
+    #telaLogin { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+    .login-box { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; }
     .login-box h1 { margin-bottom: 30px; color: #00d4ff; }
-    input {
-      width: 100%;
-      padding: 14px;
-      margin: 10px 0 20px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    button {
-      padding: 14px 28px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover { transform: scale(1.03); }
+    input { width: 100%; padding: 14px; margin: 10px 0 20px; border-radius: 8px; border: none; font-size: 16px; background: rgba(255,255,255,0.1); color: white; }
+    button { padding: 12px 20px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    button:hover { transform: scale(1.02); }
     .btn-primary { background: #00d4ff; color: #000; width: 100%; }
     .btn-sair { background: #e74c3c; color: white; }
+    .btn-sucesso { background: #4cd137; color: #000; }
+    .btn-perigo { background: #e74c3c; color: white; }
+    .btn-aviso { background: #f39c12; color: white; }
     #msgErro { color: #ff6b6b; margin-top: 10px; display: none; }
     
-    /* Tela Principal */
-    header {
-      background: rgba(0,0,0,0.3);
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    h1 { font-size: 22px; color: #00d4ff; }
-    .container { padding: 20px; max-width: 500px; margin: 0 auto; }
+    /* Cabeçalho */
+    header { background: rgba(0,0,0,0.3); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    h1 { font-size: 20px; color: #00d4ff; }
+    .container { padding: 16px; max-width: 700px; margin: 0 auto; }
     
-    /* Box da Jukebox */
-    .box-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .status-line { display: flex; justify-content: space-between; margin: 8px 0; }
-    .online { color: #4cd137; }
-    .offline { color: #e74c3c; }
+    /* Navegação */
+    .abas { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+    .aba { padding: 10px 16px; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer; white-space: nowrap; }
+    .aba.ativa { background: #00d4ff; color: #000; }
     
-    /* Botões de Valor */
-    .botoes-valores {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 20px 0;
-    }
-    .btn-valor { background: #00d4ff; color: #000; font-size: 18px; padding: 18px; }
-    .btn-valor:active { transform: scale(0.97); }
+    /* Botão Adicionar */
+    .add-box { width: 100%; background: rgba(0,212,255,0.2); color: #00d4ff; border: 2px dashed #00d4ff; margin-bottom: 20px; font-size: 16px; padding: 16px; }
     
-    /* Histórico */
-    .historico { margin-top: 24px; }
-    .historico h3 { margin-bottom: 12px; color: #aaa; }
-    .item-hist {
-      background: rgba(255,255,255,0.03);
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-    }
-    .total-box {
-      background: rgba(0,212,255,0.1);
-      padding: 16px;
-      border-radius: 8px;
-      margin-top: 16px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      color: #00d4ff;
-    }
-    .btn-zerar { background: #f39c12; color: white; margin-top: 12px; width: 100%; }
+    /* Card de cada Máquina */
+    .maquina-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .maquina-nome { font-size: 18px; font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .status-online { color: #4cd137; font-size: 14px; }
+    .status-offline { color: #e74c3c; font-size: 14px; }
+    .maquina-info { font-size: 13px; color: #aaa; margin-bottom: 12px; }
+    .botoes-valores { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin: 12px 0; }
+    .btn-valor { background: #00d4ff; color: #000; font-size: 15px; padding: 12px 8px; }
+    .btn-pequeno { padding: 8px 12px; font-size: 13px; margin-top: 8px; margin-right: 8px; }
+    
+    /* Formulário de Cadastro */
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal-conteudo { background: #1a1a2e; padding: 24px; border-radius: 12px; width: 90%; max-width: 400px; }
+    .modal-conteudo h3 { margin-bottom: 16px; color: #00d4ff; }
+    .modal-botoes { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+    .esconder { display: none !important; }
+    
+    /* Histórico e Total */
+    .historico { margin-top: 16px; }
+    .historico h4 { margin-bottom: 10px; color: #aaa; }
+    .item-hist { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 6px; }
+    .total-box { background: rgba(0,212,255,0.1); padding: 14px; border-radius: 8px; margin-top: 12px; text-align: center; font-size: 16px; font-weight: bold; color: #00d4ff; }
+    .resumo-geral { background: rgba(76,209,55,0.1); padding: 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+    .resumo-geral h3 { color: #4cd137; margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -114,58 +68,60 @@
 <div id="telaLogin">
   <div class="login-box">
     <h1>🎵 Jukebox Pix</h1>
-    <label>Digite a senha de acesso:</label>
-    <input type="password" id="senha" placeholder="Senha...">
+    <label>Senha de acesso:</label>
+    <input type="password" id="senha" placeholder="Digite a senha...">
     <button class="btn-primary" onclick="entrar()">Entrar</button>
     <div id="msgErro">Senha incorreta!</div>
   </div>
 </div>
 
-<!-- Tela Principal do App -->
+<!-- Tela Principal -->
 <div id="telaApp" class="hidden">
   <header>
-    <h1>🎵 Jukebox Pix</h1>
+    <h1>🎵 Jukebox Pix — Painel Central</h1>
     <button class="btn-sair" onclick="sair()">Sair</button>
   </header>
   
   <div class="container">
-    <!-- Informações da Máquina -->
-    <div class="box-card">
-      <h3 id="nomeMaquina">Carregando...</h3>
-      <div class="status-line">
-        <span>Status:</span>
-        <span id="statusOnline" class="offline">● Offline</span>
-      </div>
-      <div class="status-line">
-        <span>IP:</span>
-        <span id="ipMaquina">---</span>
-      </div>
-      <div class="status-line">
-        <span>Total do Período:</span>
-        <span id="valorTotal">R$ 0,00</span>
-      </div>
+    <!-- Abas -->
+    <div class="abas">
+      <div class="aba ativa" onclick="mostrarAba('maquinas')">📦 Máquinas</div>
+      <div class="aba" onclick="mostrarAba('resumo')">📊 Resumo Geral</div>
     </div>
     
-    <!-- Botões de Envio -->
-    <div class="botoes-valores">
-      <button class="btn-valor" onclick="enviarPulso(2, 2.00)">R$ 2,00</button>
-      <button class="btn-valor" onclick="enviarPulso(5, 5.00)">R$ 5,00</button>
-      <button class="btn-valor" onclick="enviarPulso(10, 10.00)">R$ 10,00</button>
-      <button class="btn-valor" onclick="enviarPulso(20, 20.00)">R$ 20,00</button>
-      <button class="btn-valor" onclick="enviarPulso(50, 50.00)">R$ 50,00</button>
-      <button class="btn-valor" onclick="enviarPulso(0, 0)" style="background:#888; color:white;">Teste</button>
+    <!-- Aba: Máquinas -->
+    <div id="aba-maquinas">
+      <button class="add-box" onclick="abrirModalCadastro()">➕ Cadastrar Nova Jukebox</button>
+      <div id="listaMaquinas"></div>
     </div>
     
-    <!-- Histórico -->
-    <div class="historico">
-      <h3>📊 Histórico</h3>
-      <div id="listaHistorico"></div>
-      
-      <div class="total-box">
-        Total: <span id="exibeTotal">R$ 0,00</span>
+    <!-- Aba: Resumo Geral -->
+    <div id="aba-resumo" class="hidden">
+      <div class="resumo-geral">
+        <h3>💰 Total de Todas as Máquinas</h3>
+        <p style="font-size: 28px; font-weight: bold; color: #4cd137; margin: 10px 0;" id="totalGeral">R$ 0,00</p>
+        <p style="color: #aaa;">Período desde: <span id="dataInicioGeral">—</span></p>
       </div>
+      <button class="btn-aviso" style="width:100%; margin-bottom:20px;" onclick="zerarTodas()">🔄 Zerar Período de Todas</button>
       
-      <button class="btn-zerar" onclick="zerarPeriodo()">🔄 Zerar Período</button>
+      <h3 style="margin-bottom:12px;">📊 Por Máquina</h3>
+      <div id="resumoPorMaquina"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cadastrar/Editar Máquina -->
+<div id="modalCadastro" class="modal esconder">
+  <div class="modal-conteudo">
+    <h3 id="tituloModal">Cadastrar Jukebox</h3>
+    <input type="text" id="campoNome" placeholder="Nome / Nome do Bar">
+    <input type="text" id="campoLocal" placeholder="Cidade / Local">
+    <input type="text" id="campoId" placeholder="ID da Box (ex: jukebox_01)">
+    <input type="text" id="campoIP" placeholder="IP da Box (ex: 192.168.0.3)">
+    
+    <div class="modal-botoes">
+      <button class="btn-perigo" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-sucesso" onclick="salvarMaquina()">Salvar</button>
     </div>
   </div>
 </div>
@@ -174,11 +130,9 @@
 // ⚙️ CONFIGURAÇÕES
 const SENHA = "jukebox2026";
 const SERVIDOR_URL = "https://servidor-jukebox.onrender.com";
-const NOME_BOX = "jukebox_01";
-const CHAVE = 'jukebox_dados';
-
-// 📦 Dados da Jukebox
-let jbs = [];
+const CHAVE = 'jukebox_maquinas';
+let editandoId = null;
+let maquinas = [];
 
 // 🔑 LOGIN
 function entrar() {
@@ -186,7 +140,7 @@ function entrar() {
   if (s === SENHA) {
     document.getElementById('telaLogin').classList.add('hidden');
     document.getElementById('telaApp').classList.remove('hidden');
-    carregar();
+    carregarDados();
   } else {
     document.getElementById('msgErro').style.display = 'block';
   }
@@ -199,111 +153,215 @@ function sair() {
   document.getElementById('telaLogin').classList.remove('hidden');
 }
 
-// 📂 CARREGAR DADOS SALVOS
-function carregar() {
+// 📂 CARREGAR / SALVAR
+function carregarDados() {
   const salvo = localStorage.getItem(CHAVE);
   if (salvo) {
-    jbs = JSON.parse(salvo);
+    maquinas = JSON.parse(salvo);
   } else {
-    jbs = [{
-      id: 'jb1',
-      nome: 'Bar do Gil — Limoeiro',
-      local: 'Limoeiro do Norte, CE',
-      ip: '192.168.0.3',
-      online: true,
-      periodo: { total: 0, valor: 0, inicio: new Date().toLocaleDateString('pt-BR') },
-      historico: []
-    }];
-    salvar();
+    maquinas = [];
   }
-  mostrar();
+  renderizarMaquinas();
+  atualizarResumoGeral();
 }
 
-function salvar() {
-  localStorage.setItem(CHAVE, JSON.stringify(jbs));
+function salvarDados() {
+  localStorage.setItem(CHAVE, JSON.stringify(maquinas));
 }
 
-// 🖥️ EXIBIR DADOS NA TELA
-function mostrar() {
-  const box = jbs[0];
-  document.getElementById('nomeMaquina').textContent = box.nome;
-  document.getElementById('ipMaquina').textContent = box.ip;
-  document.getElementById('statusOnline').textContent = box.online ? '● Online' : '● Offline';
-  document.getElementById('statusOnline').className = box.online ? 'online' : 'offline';
-  document.getElementById('valorTotal').textContent = 'R$ ' + box.periodo.valor.toFixed(2).replace('.', ',');
-  document.getElementById('exibeTotal').textContent = 'R$ ' + box.periodo.valor.toFixed(2).replace('.', ',');
+// 📄 ABA ATIVA
+function mostrarAba(nome) {
+  document.querySelectorAll('.aba').forEach(a => a.classList.remove('ativa'));
+  event.target.classList.add('ativa');
   
-  // Lista do histórico
-  const lista = document.getElementById('listaHistorico');
-  lista.innerHTML = '';
+  document.getElementById('aba-maquinas').classList.add('hidden');
+  document.getElementById('aba-resumo').classList.add('hidden');
+  document.getElementById(`aba-${nome}`).classList.remove('hidden');
   
-  if (box.historico.length === 0) {
-    lista.innerHTML = '<p style="color:#777; font-style:italic;">Nenhum registro ainda...</p>';
-  } else {
-    box.historico.forEach(item => {
-      lista.innerHTML = `
-        <div class="item-hist">
-          <span>${item.data}</span>
-          <span style="color:#00d4ff">R$ ${item.valor.toFixed(2).replace('.', ',')}</span>
-          <span>${item.pulsos} pulsos</span>
-        </div>
-      ` + lista.innerHTML;
-    });
-  }
+  if (nome === 'resumo') atualizarResumoGeral();
 }
 
-// � ENVIAR PULSO PARA O SERVIDOR
-async function enviarPulso(qtdPulsos, valor) {
-  if (qtdPulsos <= 0) {
-    alert('Digite um valor válido!');
+// 📝 MODAL DE CADASTRO
+function abrirModalCadastro(maquina = null) {
+  editandoId = maquina ? maquina.id : null;
+  document.getElementById('tituloModal').textContent = maquina ? 'Editar Jukebox' : 'Cadastrar Jukebox';
+  document.getElementById('campoNome').value = maquina ? maquina.nome : '';
+  document.getElementById('campoLocal').value = maquina ? maquina.local : '';
+  document.getElementById('campoId').value = maquina ? maquina.id : '';
+  document.getElementById('campoId').disabled = maquina ? true : false;
+  document.getElementById('campoIP').value = maquina ? maquina.ip : '';
+  document.getElementById('modalCadastro').classList.remove('esconder');
+}
+
+function fecharModal() {
+  document.getElementById('modalCadastro').classList.add('esconder');
+  editandoId = null;
+}
+
+function salvarMaquina() {
+  const nome = document.getElementById('campoNome').value.trim();
+  const local = document.getElementById('campoLocal').value.trim();
+  const idBox = document.getElementById('campoId').value.trim();
+  const ip = document.getElementById('campoIP').value.trim();
+  
+  if (!nome || !idBox || !ip) {
+    alert('Preencha todos os campos!');
     return;
   }
   
+  if (editandoId) {
+    // Editar existente
+    const idx = maquinas.findIndex(m => m.id === editandoId);
+    if (idx !== -1) {
+      maquinas[idx].nome = nome;
+      maquinas[idx].local = local;
+      maquinas[idx].ip = ip;
+    }
+  } else {
+    // Adicionar nova
+    maquinas.push({
+      id: idBox,
+      nome: nome,
+      local: local,
+      ip: ip,
+      online: true,
+      periodo: { totalPulsos: 0, valorTotal: 0, inicio: new Date().toLocaleDateString('pt-BR') },
+      historico: []
+    });
+  }
+  
+  salvarDados();
+  fecharModal();
+  renderizarMaquinas();
+}
+
+// 🗑️ EXCLUIR MÁQUINA
+function excluirMaquina(id) {
+  if (confirm('Tem certeza que deseja excluir esta Jukebox? Todo o histórico será perdido!')) {
+    maquinas = maquinas.filter(m => m.id !== id);
+    salvarDados();
+    renderizarMaquinas();
+  }
+}
+
+// 🖥️ RENDERIZAR LISTA
+function renderizarMaquinas() {
+  const lista = document.getElementById('listaMaquinas');
+  
+  if (maquinas.length === 0) {
+    lista.innerHTML = '<p style="text-align:center; color:#777; padding:20px;">Nenhuma Jukebox cadastrada ainda.<br>Clique no botão acima para cadastrar a primeira!</p>';
+    return;
+  }
+  
+  lista.innerHTML = '';
+  
+  maquinas.forEach(maquina => {
+    lista.innerHTML += `
+      <div class="maquina-card">
+        <div class="maquina-nome">
+          ${maquina.nome}
+          <span class="${maquina.online ? 'status-online' : 'status-offline'}">● ${maquina.online ? 'Online' : 'Offline'}</span>
+        </div>
+        <div class="maquina-info">
+          📍 ${maquina.local} • IP: ${maquina.ip}<br>
+          📊 Total: R$ ${maquina.periodo.valorTotal.toFixed(2).replace('.', ',')} • ${maquina.periodo.totalPulsos} pulsos
+        </div>
+        
+        <div class="botoes-valores">
+          <button class="btn-valor" onclick="enviarPulso('${maquina.id}', 2, 2.00)">R$ 2,00</button>
+          <button class="btn-valor" onclick="enviarPulso('${maquina.id}', 5, 5.00)">R$ 5,00</button>
+          <button class="btn-valor" onclick="enviarPulso('${maquina.id}', 10, 10.00)">R$ 10,00</button>
+          <button class="btn-valor" onclick="enviarPulso('${maquina.id}', 20, 20.00)">R$ 20,00</button>
+          <button class="btn-valor" onclick="enviarPulso('${maquina.id}', 50, 50.00)">R$ 50,00</button>
+        </div>
+        
+        <button class="btn-pequeno btn-aviso" onclick="abrirModalCadastro(maquina)">✏️ Editar</button>
+        <button class="btn-pequeno btn-perigo" onclick="zerarMaquina('${maquina.id}')">🔄 Zerar</button>
+        <button class="btn-pequeno" style="background:#555; color:white;" onclick="excluirMaquina('${maquina.id}')">🗑️ Excluir</button>
+        
+        <div class="historico">
+          <h4>📝 Últimos pagamentos:</h4>
+          ${renderHistorico(maquina)}
+        </div>
+      </div>
+    `;
+  });
+}
+
+function renderHistorico(maquina) {
+  if (maquina.historico.length === 0) {
+    return '<p style="color:#666; font-size:13px; font-style:italic;">Nenhum registro ainda...</p>';
+  }
+  
+  let html = '';
+  const ultimos = maquina.historico.slice(-8).reverse();
+  ultimos.forEach(item => {
+    html += `
+      <div class="item-hist">
+        <span>${item.data}</span>
+        <span style="color:#00d4ff">R$ ${item.valor.toFixed(2).replace('.', ',')}</span>
+        <span>${item.pulsos} pulsos</span>
+      </div>
+    `;
+  });
+  return html;
+}
+
+// ⚡ ENVIAR PULSO
+async function enviarPulso(idBox, qtdPulsos, valor) {
   try {
-    const resposta = await fetch(`${SERVIDOR_URL}/api/teste-pulso?box=${NOME_BOX}&qtd=${qtdPulsos}`);
+    const resposta = await fetch(`${SERVIDOR_URL}/api/teste-pulso?box=${idBox}&qtd=${qtdPulsos}`);
     const dados = await resposta.json();
     
     if (dados.sucesso) {
-      // Registra no histórico local
-      const box = jbs[0];
-      box.historico.push({
-        valor: valor,
-        pulsos: qtdPulsos,
-        data: new Date().toLocaleTimeString('pt-BR') + ' — ' + new Date().toLocaleDateString('pt-BR')
-      });
-      box.periodo.valor += valor;
-      box.periodo.total += qtdPulsos;
-      
-      salvar();
-      mostrar();
-      
-      // Feedback visual
-      const botoes = document.querySelectorAll('.btn-valor');
-      botoes.forEach(btn => btn.style.opacity = '0.5');
-      setTimeout(() => {
-        botoes.forEach(btn => btn.style.opacity = '1');
-      }, 500);
+      // Registra no histórico
+      const idx = maquinas.findIndex(m => m.id === idBox);
+      if (idx !== -1) {
+        maquinas[idx].historico.push({
+          valor: valor,
+          pulsos: qtdPulsos,
+          data: new Date().toLocaleTimeString('pt-BR') + ' — ' + new Date().toLocaleDateString('pt-BR')
+        });
+        maquinas[idx].periodo.valorTotal += valor;
+        maquinas[idx].periodo.totalPulsos += qtdPulsos;
+        salvarDados();
+        renderizarMaquinas();
+      }
     }
   } catch (erro) {
-    alert('❌ Erro ao conectar com o servidor! Verifique se está online.');
+    alert('❌ Erro ao enviar! Verifique sua conexão.');
     console.error(erro);
   }
 }
 
-// 🔄 ZERAR PERÍODO
-function zerarPeriodo() {
-  if (confirm('Tem certeza que deseja zerar o período?\nData de início será atualizada para hoje.')) {
-    const box = jbs[0];
-    box.periodo = {
-      total: 0,
-      valor: 0,
-      inicio: new Date().toLocaleDateString('pt-BR')
-    };
-    box.historico = [];
-    salvar();
-    mostrar();
+// 🔄 ZERAR PERÍODO DE UMA MÁQUINA
+function zerarMaquina(idBox) {
+  if (confirm('Zerar período desta máquina?\nHistórico e total serão apagados.')) {
+    const idx = maquinas.findIndex(m => m.id === idBox);
+    if (idx !== -1) {
+      maquinas[idx].periodo = { totalPulsos: 0, valorTotal: 0, inicio: new Date().toLocaleDateString('pt-BR') };
+      maquinas[idx].historico = [];
+      salvarDados();
+      renderizarMaquinas();
+    }
   }
 }
-</script>
-</body>
-</html>
+
+function zerarTodas() {
+  if (confirm('Zerar período de TODAS as máquinas?\nTodo o histórico será apagado!')) {
+    maquinas.forEach(m => {
+      m.periodo = { totalPulsos: 0, valorTotal: 0, inicio: new Date().toLocaleDateString('pt-BR') };
+      m.historico = [];
+    });
+    salvarDados();
+    renderizarMaquinas();
+    atualizarResumoGeral();
+  }
+}
+
+function atualizarResumoGeral() {
+  let totalGeral = 0;
+  maquinas.forEach(m => totalGeral += m.periodo.valorTotal);
+  
+  document.getElementById('totalG
+
