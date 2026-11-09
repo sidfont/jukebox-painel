@@ -60,20 +60,15 @@
 
     /* CONTEÚDO */
     main { padding: 20px; max-width: 500px; margin: 0 auto; }
-    .topo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+    .topo { text-align: center; margin-bottom: 20px; }
     .btn-novo {
-      background: #1976d2;
-      color: white;
-      border: 2px dashed #1976d2;
       background: transparent;
       color: #1976d2;
+      border: 2px dashed #1976d2;
       width: 100%;
       padding: 15px;
       font-size: 16px;
-      margin-bottom: 20px;
+      cursor: pointer;
     }
 
     /* CARTÃO DE MÁQUINA */
@@ -86,7 +81,14 @@
     }
     .card-nome { font-weight: bold; font-size: 17px; margin-bottom: 5px; }
     .card-info { font-size: 13px; color: #666; margin-bottom: 10px; }
-    .status { display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 12px; color: white; margin-bottom: 10px; }
+    .status {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: white;
+      margin-bottom: 10px;
+    }
     .online { background: #4caf50; }
     .offline { background: #e53935; }
 
@@ -136,6 +138,7 @@
     }
     .janela h3 { margin-bottom: 15px; color: #333; }
     .botoes { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+    .escondido { display: none !important; }
   </style>
 </head>
 <body>
@@ -203,7 +206,7 @@ function sair() {
   document.getElementById('login').classList.remove('escondido');
 }
 
-// CARREGAR E SALVAR NO NAVEGADOR
+// CARREGAR E SALVAR
 function carregar() {
   const dados = localStorage.getItem(CHAVE);
   listaMaquinas = dados ? JSON.parse(dados) : [];
@@ -240,7 +243,6 @@ function salvar() {
   }
   
   if (editando) {
-    // EDITAR
     const idx = listaMaquinas.findIndex(m => m.id === editando);
     if (idx !== -1) {
       listaMaquinas[idx].nome = nome;
@@ -248,7 +250,6 @@ function salvar() {
       listaMaquinas[idx].ip = ip;
     }
   } else {
-    // ADICIONAR NOVO
     listaMaquinas.push({
       id: id,
       nome: nome,
@@ -261,10 +262,10 @@ function salvar() {
   }
   
   fecharModal();
-  salvarDados();
+  salvarDados(); // ✅ Salva e já atualiza a tela automaticamente!
 }
 
-// MOSTRAR LISTA NA TELA
+// MOSTRAR LISTA
 function mostrarLista() {
   const el = document.getElementById('lista');
   
@@ -277,7 +278,10 @@ function mostrarLista() {
   listaMaquinas.forEach(m => {
     el.innerHTML += `
       <div class="card">
-        <div class="card-nome">${m.nome} <span class="status ${m.online ? 'online' : 'offline'}">${m.online ? 'ON-LINE' : 'OFF-LINE'}</span></div>
+        <div class="card-nome">
+          ${m.nome}
+          <span class="status ${m.online ? 'online' : 'offline'}">${m.online ? 'ON-LINE' : 'OFF-LINE'}</span>
+        </div>
         <div class="card-info">📍 ${m.local} • IP: ${m.ip}</div>
         
         <div class="grade">
@@ -303,7 +307,7 @@ function mostrarLista() {
             : m.historico.slice(-5).reverse().map(h => `
                 <div class="item-hist">
                   <span>${h.data}</span>
-                  <span>R$ ${h.valor.toFixed(2).replace('.', ',')} — ${h.pulsos} pulsos</span>
+                  <span>R$ ${h.valor.toFixed(2).replace('.', ',')} — ${h.pulsos}x</span>
                 </div>
               `).join('')
           }
@@ -321,7 +325,7 @@ function excluir(id) {
   }
 }
 function zerar(id) {
-  if (confirm('Zerar total e histórico desta máquina?')) {
+  if (confirm('Zerar total e histórico?')) {
     const m = listaMaquinas.find(x => x.id === id);
     if (m) {
       m.total = 0;
@@ -340,11 +344,11 @@ function enviarPulso(id, qtd, valor) {
       data: new Date().toLocaleTimeString('pt-BR') + ' — ' + new Date().toLocaleDateString('pt-BR')
     });
     salvarDados();
-    alert(`✅ ${qtd} pulso(s) enviado(s) para ${m.nome}!`);
+    alert(`✅ ${qtd} pulso(s) enviado(s)!`);
   }
 }
 
-// Permitir Enter para logar
+// Enter para logar
 document.addEventListener('keypress', function(e) {
   if (e.key === 'Enter' && !document.getElementById('login').classList.contains('escondido')) {
     entrar();
