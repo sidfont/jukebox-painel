@@ -10,12 +10,19 @@
         h1 { color: #00ff88; text-align: center; margin-bottom: 30px; }
         .card { background: #16213e; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #00ff88; }
         input { width: 100%; padding: 10px; margin: 5px 0 15px; border-radius: 4px; border: none; background: #0f3460; color: white; }
-        button { background: #00ff88; color: black; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; margin: 5px 5px 5px 0; }
+        button { background: #00ff88; color: black; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; margin: 5px 5px 5px 0; }
         button:hover { background: #00cc6a; }
         .btn-apagar { background: #ff4444; color: white; }
         .btn-apagar:hover { background: #cc0000; }
+        .btn-pix { background: #2563eb; color: white; }
+        .btn-pix:hover { background: #1d4ed8; }
         .linha { margin: 8px 0; color: #ccc; }
         .vazia { color: #666; text-align: center; padding: 30px; }
+        .pix-result { margin-top: 15px; padding: 10px; background: #0f3460; border-radius: 4px; display: none; }
+        .pix-result.visivel { display: block; }
+        .loading { color: #ffcc00; }
+        .sucesso { color: #00ff88; }
+        .erro { color: #ff6b6b; }
     </style>
 </head>
 <body>
@@ -34,6 +41,8 @@
 <div id="lista"></div>
 
 <script>
+const SERVIDOR_URL = 'https://servidor-jukebox-pix.onrender.com';
+
 let maquinas = [];
 
 function carregar() {
@@ -72,6 +81,42 @@ function apagar(id) {
     }
 }
 
+async function gerarPix(id) {
+    const maq = maquinas.find(m => m.id === id);
+    if (!maq) return;
+    
+    const divResultado = document.getElementById(`pix-result-${id}`);
+    divResultado.style.display = 'block';
+    divResultado.innerHTML = '<p class="loading">⏳ Gerando Pix...</p>';
+    
+    try {
+        const resposta = await fetch(`${SERVIDOR_URL}/criar-pix`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                valor: 2.00,
+                descricao: `Jukebox: ${maq.nome}`,
+                ipMaquina: maq.ip
+            })
+        });
+        
+        const dados = await resposta.json();
+        
+        if (dados.sucesso) {
+            divResultado.innerHTML = `
+                <p class="sucesso">✅ Pix gerado com sucesso!</p>
+                <p style="margin-top:8px"><strong>Copia e cola:</strong></p>
+                <input type="text" value="${dados.codigoPix}" readonly style="width:100%; margin:8px 0;">
+                <button onclick="this.previousElementSibling.select(); document.execCommand('copy')">📋 Copiar Código</button>
+            `;
+        } else {
+            divResultado.innerHTML = `<p class="erro">❌ Erro: ${dados.mensagem || 'Não foi possível gerar o Pix'}</p>`;
+        }
+    } catch (erro) {
+        divResultado.innerHTML = `<p class="erro">❌ Erro de conexão. Verifique se o servidor está online.</p>`;
+    }
+}
+
 function mostrar() {
     const lista = document.getElementById('lista');
     if (maquinas.length === 0) {
@@ -83,7 +128,9 @@ function mostrar() {
             <h4>${m.nome}</h4>
             <p class="linha">IP: ${m.ip}</p>
             <p class="linha">Local: ${m.local || '-'}</p>
+            <button class="btn-pix" onclick="gerarPix(${m.id})">💰 Gerar Pix R$ 2,00</button>
             <button class="btn-apagar" onclick="apagar(${m.id})">🗑️ Apagar</button>
+            <div id="pix-result-${m.id}" class="pix-result"></div>
         </div>
     `).join('');
 }
